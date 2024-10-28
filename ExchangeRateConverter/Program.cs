@@ -10,7 +10,7 @@ namespace ExchangeRateConverter
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World");
+            Console.WriteLine("Hello World {0} {1}", args[0], args.Length);
             Console.ReadLine();
         }
     }
