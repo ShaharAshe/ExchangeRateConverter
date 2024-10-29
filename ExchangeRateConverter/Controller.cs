@@ -11,6 +11,7 @@ namespace ExchangeRateConverter
     public class Controller
     {
         private readonly List<string> _fileContent; // need to be !! deprecated !! //
+        private readonly ExchangeData _exchangeData;
         
         public Controller(string fileName)
         {
@@ -19,6 +20,8 @@ namespace ExchangeRateConverter
                 .Where(line => !string.IsNullOrWhiteSpace(line))
                 .Select(line => line.Trim())
                 .ToList();
+
+            this._exchangeData = new ExchangeData(_fileContent[Utilities.Instance.FROM_COUNTRY], _fileContent[Utilities.Instance.TO_COUNTRY]);
 
             foreach (string line in this._fileContent)
             {
