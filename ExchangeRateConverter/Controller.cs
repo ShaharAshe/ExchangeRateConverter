@@ -28,13 +28,12 @@ namespace ExchangeRateConverter
                 .Select(line => line.Trim())
                 .ToList();
 
+            if(this._fileContent.Count()<(Utilities.Instance.TO_COUNTRY+1))
+            {
+                throw new Exception("[ERROR] - The file format is not good !!!\nThe format need to be:\n< Country coin from >\n< Country coin to >\n...\n");
+            }
             // !! need to change that and removed the new to another place !!! //
-            
-                if(this._fileContent.Count()<(Utilities.Instance.TO_COUNTRY+1))
-                {
-                    throw new Exception("[ERROR] - The file format is not good !!!\nThe format need to be:\n< Country coin from >\n< Country coin to >\n...\n");
-                }
-                this._exchangeData = new ExchangeData(this._fileContent[Utilities.Instance.FROM_COUNTRY], this._fileContent[Utilities.Instance.TO_COUNTRY]);
+            this._exchangeData = new ExchangeData(this._fileContent[Utilities.Instance.FROM_COUNTRY], this._fileContent[Utilities.Instance.TO_COUNTRY]);
 
             foreach (string line in this._fileContent)
             {
