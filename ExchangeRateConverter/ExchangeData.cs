@@ -14,8 +14,7 @@ namespace ExchangeRateConverter
     {
         public string FromCountry { get; private set; }
         public string ToCountry { get; private set; }
-        public decimal FromData { get; private set; }
-        public decimal ToData { get; private set; }
+        public decimal RateData { get; private set; }
 
         private readonly string _URL;
 
@@ -48,9 +47,8 @@ namespace ExchangeRateConverter
 
             var apiData = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonResponse);
             var exchangeData = JsonConvert.DeserializeObject<Dictionary<string, decimal>>(apiData["conversion_rates"].ToString());
-
-            FromData = exchangeData[this.FromCountry];
-            ToData = exchangeData[this.ToCountry];
+            
+            RateData = exchangeData[this.ToCountry];
         }
     }
 }
