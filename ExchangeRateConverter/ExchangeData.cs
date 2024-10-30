@@ -6,12 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http;
-using System.Text.Json.Serialization;
-//using Newtonsoft.Json;
-using System.Text.Json;
 using Newtonsoft.Json;
-using System.Collections;
-using System.CodeDom;
 
 namespace ExchangeRateConverter
 {
