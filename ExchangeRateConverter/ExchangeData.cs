@@ -5,44 +5,57 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using System.Net.Http;
+using System.Text.Json.Serialization;
+//using Newtonsoft.Json;
+using System.Text.Json;
+using Newtonsoft.Json;
+using System.Collections;
+using System.CodeDom;
 
 namespace ExchangeRateConverter
 {
     public class ExchangeData
     {
-        private readonly string _FromCountry;
-        private readonly string _ToCountry;
+        public string FromCountry { get; private set; }
+        public string ToCountry { get; private set; }
+        public decimal FromData { get; private set; }
+        public decimal ToData { get; private set; }
+
         private readonly string _URL;
 
         public ExchangeData(string from, string to)
         {
-            this._FromCountry = from;
-            this._ToCountry = to;
+            this.FromCountry = from;
+            this.ToCountry = to;
+            this._URL = $"https://v6.exchangerate-api.com/v6/{ApiKey()}/latest/{this.FromCountry}";
 
+            Task.Run(() => InitializeAsync(new HttpClient())).Wait();
+        }
+
+        private string ApiKey()
+        {
             var basePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\"));
-            Console.WriteLine(basePath);
-
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(basePath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile(Utilities.Instance.DotenvFileName, optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
-            var key = configuration["AppSettings:API_KEY"];
 
-            this._URL = $"https://v6.exchangerate-api.com/v6/{key}/latest/{this._FromCountry}";
-
-            Console.WriteLine(this._URL);
-            Console.WriteLine("From: {0}",this._FromCountry);
-            Console.WriteLine("To: {0}", this._ToCountry);
+            return configuration["AppSettings:API_KEY"];
         }
 
-        public string GetFromCountry()
+        private async Task InitializeAsync(HttpClient httpClient)
         {
-            return this._FromCountry;
-        }
-        public string GetToCountry()
-        {
-            return this._ToCountry;
+            HttpResponseMessage response = await httpClient.GetAsync(this._URL);
+            response.EnsureSuccessStatusCode();
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+
+            var apiData = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonResponse);
+            var exchangeData = JsonConvert.DeserializeObject<Dictionary<string, decimal>>(apiData["conversion_rates"].ToString());
+
+            FromData = exchangeData[this.FromCountry];
+            ToData = exchangeData[this.ToCountry];
         }
     }
 }

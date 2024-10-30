@@ -21,6 +21,8 @@ namespace ExchangeRateConverter
                 .Select(line => line.Trim())
                 .ToList();
 
+
+            // need to change that and removed the new to another place !!! //
             this._exchangeData = new ExchangeData(_fileContent[Utilities.Instance.FROM_COUNTRY], _fileContent[Utilities.Instance.TO_COUNTRY]);
 
             foreach (string line in this._fileContent)

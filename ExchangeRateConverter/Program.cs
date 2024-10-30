@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Net.Http;
 
 
 namespace ExchangeRateConverter
@@ -19,6 +20,10 @@ namespace ExchangeRateConverter
             catch (IndexOutOfRangeException e)
             {
                 Console.Error.WriteLine("[ERROR] - You need to insert a file name in the arguments vector !!!");
+            }
+            catch (HttpRequestException e)
+            {
+                Console.Error.WriteLine("[ERROR] - Http Request error:\n" + e.Message);
             }
             catch (Exception e)
             {
