@@ -22,9 +22,9 @@ namespace ExchangeRateConverter
             {
                 Console.Error.WriteLine("[ERROR] - You need to insert a file name in the arguments vector !!!");
             }
-            catch (HttpRequestException e)
+            catch (AggregateException e)
             {
-                Console.Error.WriteLine("[ERROR] - Http Request error:\n" + e.Message);
+                Console.Error.WriteLine("[ERROR] - Http Request !!!");
             }
             catch (Exception e)
             {
