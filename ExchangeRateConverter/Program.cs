@@ -15,7 +15,7 @@ namespace ExchangeRateConverter
         {
             try
             {
-                Controller app = new Controller(args[Utilities.Instance.FILE_NAME]);
+                Controller app = new Controller(new ReadFile(args[Utilities.Instance.FILE_NAME]));
                 app.Run();
             }
             catch (IndexOutOfRangeException e)

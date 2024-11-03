@@ -102,7 +102,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller.cs" />
+    <Compile Include="ExchangeCalculate.cs" />
     <Compile Include="ExchangeData.cs" />
+    <Compile Include="IRead.cs" />
+    <Compile Include="ReadFile.cs" />
     <Compile Include="utilities.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
